@@ -1,0 +1,10 @@
+---
+
+dependencies:
+  - name: bedrock.common
+    scm: git
+    src: https://github.com/BedrockSolutions/ansible-role-common.git
+    vars:
+      common:
+        command: dependency
+    version: master
