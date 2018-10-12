@@ -1,0 +1,4 @@
+---
+
+- include_tasks: gcp.yml
+  when: (gcp is not defined) or ('command' not in gcp) or (gcp.command != 'dependency')

@@ -1,0 +1,34 @@
+---
+
+- validate:
+    schema:
+      type: object
+      additionalProperties:
+        - command
+      properties:
+        auth_kind:
+          type: string
+          enum:
+            - application
+            - serviceaccount
+          default: serviceaccount
+        name:
+          type: string
+      required:
+        - auth_kind
+        - name
+    instance: "{{ gcp }}"
+  register: gcp_validated
+
+- set_fact:
+    gcp_v: "{{ gcp_validated.result }}"
+
+- gcp_deployment:
+    auth_kind: "{{ gcp_v.auth_kind }}"
+    name: "{{ gcp_v.name }}"
+    fail2ban_ignored_ips: "{{ machine_config.fail2ban.ignored_ips }}"
+    os_kernel_ip_forwarding_enabled: "{{ machine_config.os.kernel_ip_forwarding_enabled }}"
+    os_swap_device: "{{ machine_config.os.swap_device }}"
+    ssh_agent_forwarding_enabled: "{{ machine_config.ssh.agent_forwarding_enabled }}"
+    ssh_allowed_networks: "{{ machine_config.ssh.allowed_networks }}"
+    stackdriver_enabled: "{{ machine_config.stackdriver.enabled }}"
