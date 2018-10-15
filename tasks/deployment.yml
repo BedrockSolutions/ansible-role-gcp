@@ -1,6 +1,8 @@
 ---
 
-- gcp_deployment: "{{ gcp }}"
+- gcp_deployment:
+    name: "{{ gcp.name }}"
+    config: "{{ gcp.config }}"
 
 #- validate:
 #    schema:
