@@ -161,6 +161,11 @@ MODULE_ARGS = dict(
         ],
         default='delete',
     ),
+    imports=dict(
+        type='list',
+        elements='dict',
+        default=[],
+    ),
     name=dict(
         required=True,
         type='str',
@@ -242,6 +247,7 @@ def main():
     config = module.params['config']
     create_policy = get_real_policy_name(module.params['create_policy'])
     delete_policy = get_real_policy_name(module.params['delete_policy'])
+    imports = module.params['imports']
     name = module.params['name']
     project = module.params['project']
     scopes = module.params['scopes']
@@ -278,6 +284,7 @@ def main():
             body = dict(
                 name=name,
                 target=dict(
+                    imports=imports,
                     config=dict(
                         content=yaml.safe_dump(config, default_flow_style=False),
                     ),
