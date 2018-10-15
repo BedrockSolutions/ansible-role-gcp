@@ -167,6 +167,7 @@ MODULE_ARGS = dict(
     ),
     project=dict(
         default=None,
+        required=True,
         type='str',
     ),
     scopes=dict(

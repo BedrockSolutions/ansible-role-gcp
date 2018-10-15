@@ -2,6 +2,7 @@
 
 - gcp_deployment:
     name: "{{ gcp.name }}"
+    project: "{{ gcp.project }}"
     config: "{{ gcp.config }}"
 
 #- validate:
