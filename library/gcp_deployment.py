@@ -142,7 +142,6 @@ MODULE_ARGS = dict(
             'serviceaccount',
         ],
         default='application',
-        required=True,
     ),
     config=dict(
         required=True,
