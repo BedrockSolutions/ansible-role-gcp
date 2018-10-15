@@ -1,2 +1,19 @@
 ---
 
+- block:
+    - validate:
+        schema:
+          type: object
+          properties:
+            command:
+              type: string
+              enum:
+                - dependency
+                - deployment
+          required:
+            - command
+        instance: "{{ gcp }}"
+
+    - include_tasks: '{{ gcp.command }}.yml'
+  tags:
+    - gcp
