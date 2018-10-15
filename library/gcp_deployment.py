@@ -141,6 +141,7 @@ MODULE_ARGS = dict(
             'application',
             'serviceaccount',
         ],
+        default='application',
         required=True,
     ),
     config=dict(
@@ -166,6 +167,7 @@ MODULE_ARGS = dict(
         type='str',
     ),
     project=dict(
+        default=None,
         required=True,
         type='str',
     ),
