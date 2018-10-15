@@ -216,7 +216,7 @@ def wait_for_operation(request, check_interval=1, timeout=180):
 
         if ticks >= timeout:
             raise OperationTimeout(
-                f"Operation {operation['name']} exceeded timeout of {timeout} seconds."
+                "Operation " + operation['name'] + " exceeded timeout of " + str(timeout) + " seconds."
             )
 
         time.sleep(check_interval)
@@ -226,7 +226,7 @@ def wait_for_operation(request, check_interval=1, timeout=180):
 
     if errors:
         raise OperationError(
-            f"Errors occured while processing operation {operation['name']}: {errors}"
+            "Errors occured while processing operation " + operation['name'] + ": " + str(errors)
         )
 
 
@@ -256,7 +256,7 @@ def main():
             service_account_file, scopes=scopes,
         )
     else:
-        module.fail_json(msg=f"Authentication kind '{auth_kind}' is not implemented")
+        module.fail_json(msg="Authentication kind '" + auth_kind + "' is not implemented")
 
     deployment_manager = discovery.build('deploymentmanager', 'v2', credentials=credentials)
     deployments = deployment_manager.deployments()
