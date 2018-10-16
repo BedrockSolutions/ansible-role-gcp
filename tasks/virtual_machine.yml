@@ -1,0 +1,153 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          auth_kind:
+            type: string
+            enum:
+              - application
+              - serviceaccount
+            default: application
+
+          boot_disk_image:
+            type: string
+
+          boot_disk_size_gb:
+            type: integer
+            minimum: 10
+            default: 10
+
+          can_ip_forward:
+            type: boolean
+            default: false
+
+          disks:
+            type: array
+            default: []
+            items:
+              type: object
+              required:
+                - is_ssd
+                - name
+                - size_gb
+              properties:
+                image:
+                  type: string
+                is_ssd:
+                  type: boolean
+                  default: yes
+                name:
+                  type: string
+                size_gb:
+                  type: integer
+                  minimum: 0
+                snapshot:
+                  type: string
+
+          has_external_ip:
+            type: boolean
+            default: no
+
+          labels:
+            type: object
+            properties:
+              groups:
+                type: array
+                items:
+                  type: string
+                minLength: 1
+            required:
+              - groups
+
+          machine_type:
+            type: string
+
+          min_cpu_platform:
+            type: string
+
+          name:
+            type: string
+
+          network:
+            type: string
+            enum:
+              - mainnet
+              - testnet
+
+          project:
+            type: string
+
+          region:
+            type: string
+
+          service_account:
+            type: string
+            format: email
+
+          subnetwork:
+            type: string
+
+          swap_disk_size_gb:
+            type: integer
+            minimum: 0
+            default: 0
+
+          tags:
+            type: array
+            default: []
+            items:
+              type: string
+
+          zone:
+            type: string
+
+        required:
+#          - auth_kind
+#          - boot_disk_image
+#          - boot_disk_size_gb
+#          - can_ip_forward
+#          - has_external_ip
+#          - labels
+#          - machine_type
+#          - min_cpu_platform
+#          - name
+#          - project
+#          - region
+#          - service_account
+#          - subnetwork
+#          - swap_disk_size_gb
+#          - zone
+
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  {% if gcp_v.has_external_ip %}
+  - set_fact:
+      external_ip:
+        - name: "{{ gcp_v.name }} + -eip"
+          type: compute.v1.address
+          properties:
+            region: "{{ gcp_v.region }}"
+  {% else %}
+  - set_fact:
+      external_ip: []
+  {% endif %}
+
+
+  - debug:
+      var: external_ip
+
+#  - gcp_deployment:
+#      auth_kind: "{{ gcp_v.auth_kind }}"
+#      name: "{{ gcp_v.name }}"
+#      project: "{{ gcp_v.project }}"
+  tags:
+    - gcp_virtual_machine

@@ -9,7 +9,7 @@
               type: string
               enum:
                 - dependency
-                - deployment
+                - virtual_machine
           required:
             - command
         instance: "{{ gcp }}"
