@@ -272,6 +272,7 @@ def main():
     deployment = None
     operation = None
 
+    import os
     print(os.getcwd())
 
     try:
