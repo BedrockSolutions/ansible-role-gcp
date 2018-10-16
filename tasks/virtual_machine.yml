@@ -129,17 +129,17 @@
   - set_fact:
       gcp_v: "{{ gcp_validated.result }}"
 
-  {% if gcp_v.has_external_ip %}
+{% if gcp_v.has_external_ip %}
   - set_fact:
       external_ip:
         - name: "{{ gcp_v.name }} + -eip"
           type: compute.v1.address
           properties:
             region: "{{ gcp_v.region }}"
-  {% else %}
+{% else %}
   - set_fact:
       external_ip: []
-  {% endif %}
+{% endif %}
 
 
   - debug:
