@@ -307,7 +307,7 @@ def main():
                 ),
             )
 
-            print(body)
+            print(str(body))
 
             if not deployment:
                 if not module.check_mode:
