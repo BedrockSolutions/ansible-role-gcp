@@ -273,7 +273,7 @@ def main():
     operation = None
 
     import os
-    print(os.getcwd())
+    module.fail_json(msg=os.getcwd())
 
     try:
         get_deployment = deployments.get(project=project, deployment=name)
