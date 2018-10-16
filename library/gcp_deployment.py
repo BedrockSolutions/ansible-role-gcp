@@ -272,21 +272,21 @@ def main():
     deployment = None
     operation = None
 
-    import os
-    module.fail_json(msg=os.path.dirname(os.path.realpath(__file__)))
+    # import os
+    # module.fail_json(msg=os.path.dirname(os.path.realpath(__file__)))
 
     try:
-        # try:
-        #     imports_converted = []
-        #     for imprt in imports:
-        #         with open(imprt.path, 'r') as import_file:
-        #             imports_converted.append({
-        #                 "name": imprt.name,
-        #                 "content": import_file.read()
-        #             })
-        # except Exception as error:
-        #     print('Error in import code')
-        #     print(str(error))
+        try:
+            imports_converted = []
+            for imprt in imports:
+                with open(imprt.path, 'r') as import_file:
+                    imports_converted.append({
+                        "name": imprt.name,
+                        "content": import_file.read()
+                    })
+        except Exception as error:
+            print('Error in import code')
+            print(str(error))
 
 
         get_deployment = deployments.get(project=project, deployment=name)
@@ -300,7 +300,7 @@ def main():
             body = dict(
                 name=name,
                 target=dict(
-                    # imports=imports_converted,
+                    imports=imports_converted,
                     config=dict(
                         content=yaml.safe_dump(config, default_flow_style=False),
                     ),
