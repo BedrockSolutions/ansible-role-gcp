@@ -276,13 +276,18 @@ def main():
     module.fail_json(msg=os.path.dirname(os.path.realpath(__file__)))
 
     try:
-        imports_converted = []
-        for imprt in imports:
-            with open(imprt.path, 'r') as import_file:
-                imports_converted.append({
-                    "name": imprt.name,
-                    "content": import_file.read()
-                })
+        try:
+            imports_converted = []
+            for imprt in imports:
+                with open(imprt.path, 'r') as import_file:
+                    imports_converted.append({
+                        "name": imprt.name,
+                        "content": import_file.read()
+                    })
+        except Exception as error:
+            print('Error in import code')
+            print(str(error))
+
 
         get_deployment = deployments.get(project=project, deployment=name)
         try:
