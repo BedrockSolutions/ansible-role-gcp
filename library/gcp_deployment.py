@@ -279,9 +279,9 @@ def main():
         try:
             imports_converted = []
             for imprt in imports:
-                with open(imprt.path, 'r') as import_file:
+                with open(imprt['path'], 'r') as import_file:
                     imports_converted.append({
-                        "name": imprt.name,
+                        "name": imprt['name'],
                         "content": import_file.read()
                     })
         except Exception as error:
