@@ -273,7 +273,7 @@ def main():
     operation = None
 
     import os
-    module.fail_json(msg=os.getcwd())
+    module.fail_json(msg=os.path.dirname(os.path.realpath(__file__)))
 
     try:
         get_deployment = deployments.get(project=project, deployment=name)
