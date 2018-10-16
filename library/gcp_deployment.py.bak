@@ -272,8 +272,6 @@ def main():
     deployment = None
     operation = None
 
-    print(os.getcwd())
-
     try:
         get_deployment = deployments.get(project=project, deployment=name)
         try:
