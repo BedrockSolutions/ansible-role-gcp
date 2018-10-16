@@ -302,6 +302,8 @@ def main():
                 ),
             )
 
+            print(body)
+
             if not deployment:
                 if not module.check_mode:
                     operation = deployments.insert(
