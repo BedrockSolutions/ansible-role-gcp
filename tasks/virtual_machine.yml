@@ -95,6 +95,13 @@
             type: string
             format: email
 
+          state:
+            type: string
+            default: present
+            enum:
+              - absent
+              - present
+
           subnetwork:
             type: string
 
@@ -128,6 +135,7 @@
           - project
           - region
           - service_account
+          - state
           - subnetwork
           - swap_disk_size_gb
           - zone
@@ -143,9 +151,10 @@
 
   - gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
-      name: "{{ gcp_v.name }}"
-      project: "{{ gcp_v.project }}"
       config:
         resources: "{{ vm_resources.result }}"
+      name: "{{ gcp_v.name }}"
+      project: "{{ gcp_v.project }}"
+      state: "{{ gcp_v.state }}"
   tags:
     - gcp_virtual_machine
