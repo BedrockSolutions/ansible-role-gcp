@@ -124,7 +124,7 @@ def dns_record(context):
         'type': 'A'
     }
 
-    deployment_name = 'dns-records-' + generate_unique_string(10)
+    deployment_name = name + '-dns-' + generate_unique_string(10)
 
     recordset_create = {
         'name': deployment_name + '-create',
