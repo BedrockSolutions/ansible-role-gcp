@@ -259,7 +259,7 @@ def get_resources(context):
     return resources
 
 
-class VirtualMachine(ActionBase):
+class ActionModule(ActionBase):
     def run(self, tmp=None, task_vars=None):
         if task_vars is None:
             task_vars = dict()
