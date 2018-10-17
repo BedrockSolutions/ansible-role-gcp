@@ -1,6 +1,9 @@
 ---
 
 - block:
+  - debug:
+      var: gcp
+
   - validate:
       schema:
         type: object
