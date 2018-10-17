@@ -78,6 +78,14 @@
 
           min_cpu_platform:
             type: string
+            enum:
+              - ""
+              - Intel Sandy Bridge
+              - Intel Ivy Bridge
+              - Intel Haswell
+              - Intel Broadwell
+              - Intel Skylake
+            default: ""
 
           name:
             type: string

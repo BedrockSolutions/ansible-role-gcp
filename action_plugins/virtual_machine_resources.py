@@ -196,7 +196,8 @@ def machine_type(context):
 
 
 def min_cpu_platform(context):
-    return context['min_cpu_platform']
+    min_cpu = context['min_cpu_platform']
+    return min_cpu if len(min_cpu) > 0 else None
 
 
 def service_account(context):
