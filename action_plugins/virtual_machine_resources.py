@@ -270,7 +270,7 @@ class ActionModule(ActionBase):
         context = merge_hash(task_vars, action_vars)
 
         # get the return object from the parent class
-        return_value = super(VirtualMachine, self).run(tmp, task_vars)
+        return_value = super(ActionModule, self).run(tmp, task_vars)
 
         # put the resources under the 'result' key
         return_value['result'] = get_resources(context)
