@@ -141,12 +141,11 @@
   - virtual_machine_resources: "{{ gcp_v }}"
     register: resources
 
-  - debug:
-      var: resources
-
-#  - gcp_deployment:
-#      auth_kind: "{{ gcp_v.auth_kind }}"
-#      name: "{{ gcp_v.name }}"
-#      project: "{{ gcp_v.project }}"
+  - gcp_deployment:
+      auth_kind: "{{ gcp_v.auth_kind }}"
+      name: "{{ gcp_v.name }}"
+      project: "{{ gcp_v.project }}"
+      config:
+        resources: "{{ resources.result }}"
   tags:
     - gcp_virtual_machine
