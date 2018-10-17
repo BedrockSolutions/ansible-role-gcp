@@ -115,6 +115,7 @@ def access_configs(context):
 def dns_record(context):
     name = context['name']
     dns_subdomain = context['dns_subdomain']
+    dns_zone_name = context['dns_zone_name']
 
     recordset = {
         'name': name + '.' + dns_subdomain,
@@ -135,7 +136,7 @@ def dns_record(context):
         },
         'properties':
             {
-                'managedZone': dns_subdomain,
+                'managedZone': dns_zone_name,
                 'additions': [recordset]
             },
     }
@@ -150,7 +151,7 @@ def dns_record(context):
         },
         'properties':
             {
-                'managedZone': dns_subdomain,
+                'managedZone': dns_zone_name,
                 'deletions': [recordset]
             },
     }
