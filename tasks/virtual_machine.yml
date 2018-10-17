@@ -139,13 +139,13 @@
       gcp_v: "{{ gcp_validated.result }}"
 
   - virtual_machine_resources: "{{ gcp_v }}"
-    register: resources
+    register: vm_resources
 
   - gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
       name: "{{ gcp_v.name }}"
       project: "{{ gcp_v.project }}"
       config:
-        resources: "{{ resources.result }}"
+        resources: "{{ vm_resources.result }}"
   tags:
     - gcp_virtual_machine
