@@ -181,7 +181,7 @@ def generate_unique_string(num_chars):
 def labels(context):
     return_value = {}
 
-    for key, val in context['labels']['groups']:
+    for key, val in context['labels'].items():
         if isinstance(val, list):
             return_value[key] = '_'.join(val)
         else:
