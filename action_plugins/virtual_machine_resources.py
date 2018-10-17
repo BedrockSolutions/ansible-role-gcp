@@ -82,7 +82,7 @@ def attached_disks(context):
         )
     ]
 
-    swap_disk_size = context['swap_disk_size_gb']
+    swap_disk_size = int(context['swap_disk_size_gb'])
     if swap_disk_size > 0:
         disk_arr.append(attached_disk(
             context=context,
