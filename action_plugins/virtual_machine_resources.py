@@ -240,7 +240,7 @@ def get_resources(context):
             'disks': attached_disks(context),
             'labels': labels(context),
             'machineType': machine_type(context),
-            # 'minCpuPlatform': min_cpu_platform(context),
+            'minCpuPlatform': min_cpu_platform(context),
             'networkInterfaces': [{
                 'accessConfigs': access_configs(context),
                 'subnetwork': subnetwork(context)
