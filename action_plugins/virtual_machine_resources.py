@@ -45,12 +45,12 @@ def disk_resources(context):
             context=context,
             disk_name='boot',
             is_ssd=True,
-            size=context['boot_disk_size_gb'],
+            size=int(context['boot_disk_size_gb']),
             image=context['boot_disk_image'],
         )
     ]
 
-    swap_disk_size = context['swap_disk_size_gb']
+    swap_disk_size = int(context['swap_disk_size_gb'])
     if swap_disk_size > 0:
         disk_arr.append(disk_resource(
             context=context,
