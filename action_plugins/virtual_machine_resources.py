@@ -250,7 +250,7 @@ def get_resources(context):
             #     'scopes': ['https://www.googleapis.com/auth/cloud-platform']
             # }],
             # 'tags': tags(context),
-            # 'zone': zone(context),
+            'zone': zone(context),
         },
     })
 
