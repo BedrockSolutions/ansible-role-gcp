@@ -236,21 +236,21 @@ def get_resources(context):
         'name': name,
         'type': 'compute.v1.instance',
         'properties': {
-            'canIpForward': context['can_ip_forward'],
+            # 'canIpForward': context['can_ip_forward'],
             'disks': attached_disks(context),
-            'labels': labels(context),
+            # 'labels': labels(context),
             'machineType': machine_type(context),
-            'minCpuPlatform': min_cpu_platform(context),
-            'networkInterfaces': [{
-                'accessConfigs': access_configs(context),
-                'subnetwork': subnetwork(context)
-            }],
-            'serviceAccounts': [{
-                'email': service_account(context),
-                'scopes': ['https://www.googleapis.com/auth/cloud-platform']
-            }],
-            'tags': tags(context),
-            'zone': zone(context),
+            # 'minCpuPlatform': min_cpu_platform(context),
+            # 'networkInterfaces': [{
+            #     'accessConfigs': access_configs(context),
+            #     'subnetwork': subnetwork(context)
+            # }],
+            # 'serviceAccounts': [{
+            #     'email': service_account(context),
+            #     'scopes': ['https://www.googleapis.com/auth/cloud-platform']
+            # }],
+            # 'tags': tags(context),
+            # 'zone': zone(context),
         },
     })
 
