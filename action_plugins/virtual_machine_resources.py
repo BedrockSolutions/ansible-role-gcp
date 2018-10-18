@@ -20,10 +20,10 @@ def disk_resource(context, disk_name, size, is_ssd, image=None, snapshot=None):
     }
 
     if image:
-        disk['properties']['source_image'] = image
+        disk['properties']['sourceImage'] = image
 
     if snapshot:
-        disk['properties']['source_snapshot'] = snapshot
+        disk['properties']['sourceSnapshot'] = snapshot
 
     return disk
 
@@ -236,20 +236,20 @@ def get_resources(context):
         'name': name,
         'type': 'compute.v1.instance',
         'properties': {
-            # 'canIpForward': context['can_ip_forward'],
+            'canIpForward': context['can_ip_forward'],
             'disks': attached_disks(context),
-            # 'labels': labels(context),
+            'labels': labels(context),
             'machineType': machine_type(context),
-            # 'minCpuPlatform': min_cpu_platform(context),
+            'minCpuPlatform': min_cpu_platform(context),
             'networkInterfaces': [{
-                # 'accessConfigs': access_configs(context),
+                'accessConfigs': access_configs(context),
                 'subnetwork': subnetwork(context)
             }],
-            # 'serviceAccounts': [{
-            #     'email': service_account(context),
-            #     'scopes': ['https://www.googleapis.com/auth/cloud-platform']
-            # }],
-            # 'tags': tags(context),
+            'serviceAccounts': [{
+                'email': service_account(context),
+                'scopes': ['https://www.googleapis.com/auth/cloud-platform']
+            }],
+            'tags': tags(context),
             'zone': zone(context),
         },
     })
