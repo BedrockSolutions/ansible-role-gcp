@@ -241,10 +241,10 @@ def get_resources(context):
             # 'labels': labels(context),
             'machineType': machine_type(context),
             # 'minCpuPlatform': min_cpu_platform(context),
-            # 'networkInterfaces': [{
-            #     'accessConfigs': access_configs(context),
-            #     'subnetwork': subnetwork(context)
-            # }],
+            'networkInterfaces': [{
+                # 'accessConfigs': access_configs(context),
+                'subnetwork': subnetwork(context)
+            }],
             # 'serviceAccounts': [{
             #     'email': service_account(context),
             #     'scopes': ['https://www.googleapis.com/auth/cloud-platform']
