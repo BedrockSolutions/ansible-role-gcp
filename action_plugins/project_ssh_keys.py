@@ -40,8 +40,6 @@ class ActionModule(ActionBase):
         # get the metadata fingerprint
         fingerprint = projects_api.get(project=project).execute()['commonInstanceMetadata']['fingerprint']
 
-        print("Fingerprint: " + fingerprint)
-
         # set the ssh-key metadata value
         request_body = {
             'fingerprint': fingerprint,
