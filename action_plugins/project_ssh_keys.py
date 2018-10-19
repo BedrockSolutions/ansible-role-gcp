@@ -38,9 +38,7 @@ class ActionModule(ActionBase):
         projects_api = discovery.build('compute', 'v1').projects()
 
         # get the metadata fingerprint
-        get_response = projects_api.get(project=project)
-        print(str(get_response))
-        fingerprint = projects_api.get(project=project).commonInstanceMetadata().fingerprint
+        fingerprint = projects_api.get(project=project).execute()['commonInstanceMetadata']['fingerprint']
 
         # set the ssh-key metadata value
         request_body = {
@@ -50,7 +48,7 @@ class ActionModule(ActionBase):
                 'value': key_string,
             }]
         }
-        result = projects_api.setCommonInstanceMetadata(project=project, body=request_body)
+        result = projects_api.setCommonInstanceMetadata(project=project, body=request_body).execute()
 
         # raise if the result contains errors
         if len(result.get('error', {}).get('errors', [])):
