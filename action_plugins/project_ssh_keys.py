@@ -33,7 +33,7 @@ class ActionModule(ActionBase):
 
         # map the keys into the proper format
         def to_key_format(obj):
-            return obj.username + ":" + obj.key_type + " " + obj.key_data + " " + obj.comment
+            return obj['username'] + ":" + obj['key_type'] + " " + obj['key_data'] + " " + obj['comment']
         key_string = "\n".join(map(to_key_format, ssh_keys))
 
         print(key_string)
