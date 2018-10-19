@@ -29,6 +29,8 @@ class ActionModule(ActionBase):
         project = context['project']
         keys = context['keys']
 
+        print(str(keys))
+
         # map the keys into the proper format
         def to_key_format(obj):
             return obj.username + ":" + obj.key_type + " " + obj.key_data + " " + obj.comment
