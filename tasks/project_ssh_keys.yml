@@ -1,0 +1,31 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          keys:
+            type: array
+            items:
+              type: string
+            minItems: 1
+            uniqueItems: yes
+          project:
+            type: string
+        required:
+          - keys
+          - project
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - project_ssh_keys:
+      keys: "{{ gcp_v.keys }}"
+      project: "{{ gcp_v.project }}"
+  tags:
+    - gcp_project_ssh_keys

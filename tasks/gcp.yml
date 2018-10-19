@@ -9,6 +9,7 @@
               type: string
               enum:
                 - dependency
+                - project_ssh_keys
                 - virtual_machine
           required:
             - command
