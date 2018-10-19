@@ -29,15 +29,10 @@ class ActionModule(ActionBase):
         project = context['project']
         ssh_keys = context['ssh_keys']
 
-        print(str(ssh_keys))
-
         # map the keys into the proper format
         def to_key_format(obj):
             return obj['username'] + ":" + obj['key_type'] + " " + obj['key_data'] + " " + obj['comment']
         key_string = "\n".join(map(to_key_format, ssh_keys))
-
-        print(key_string)
-        return
 
         # get the projects api service object
         projects_api = discovery.build('compute', 'v1').projects()
@@ -62,7 +57,7 @@ class ActionModule(ActionBase):
         # get the return object from the parent class
         return_value = super(ActionModule, self).run(tmp, task_vars)
 
-        # put the resources under the 'result' key
+        # put the result in the return object
         return_value['result'] = result
 
         return return_value
