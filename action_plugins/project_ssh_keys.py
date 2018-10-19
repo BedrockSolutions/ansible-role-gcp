@@ -34,6 +34,9 @@ class ActionModule(ActionBase):
             return obj.username + ":" + obj.key_type + " " + obj.key_data + " " + obj.comment
         key_string = "\n".join(map(to_key_format, keys))
 
+        print(key_string)
+        return
+
         # get the projects api service object
         projects_api = discovery.build('compute', 'v1').projects()
 
