@@ -7,7 +7,9 @@
         additionalProperties:
           - command
         properties:
-          keys:
+          project:
+            type: string
+          ssh_keys:
             type: array
             items:
               type: object
@@ -32,11 +34,9 @@
                 - comment
             minItems: 1
             uniqueItems: yes
-          project:
-            type: string
         required:
-          - keys
           - project
+          - ssh_keys
       instance: "{{ gcp }}"
     register: gcp_validated
 
@@ -44,7 +44,7 @@
       gcp_v: "{{ gcp_validated.result }}"
 
   - project_ssh_keys:
-      keys: "{{ gcp_v.keys }}"
       project: "{{ gcp_v.project }}"
+      ssh_keys: "{{ gcp_v.ssh_keys }}"
   tags:
     - gcp_project_ssh_keys

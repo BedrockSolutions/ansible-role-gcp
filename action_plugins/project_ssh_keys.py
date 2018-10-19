@@ -27,14 +27,14 @@ class ActionModule(ActionBase):
 
         # get variables
         project = context['project']
-        keys = context['keys']
+        ssh_keys = context['ssh_keys']
 
-        print(str(keys))
+        print(str(ssh_keys))
 
         # map the keys into the proper format
         def to_key_format(obj):
             return obj.username + ":" + obj.key_type + " " + obj.key_data + " " + obj.comment
-        key_string = "\n".join(map(to_key_format, keys))
+        key_string = "\n".join(map(to_key_format, ssh_keys))
 
         print(key_string)
         return
