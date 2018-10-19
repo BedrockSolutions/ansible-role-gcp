@@ -10,7 +10,26 @@
           keys:
             type: array
             items:
-              type: string
+              type: object
+              additionalProperties: no
+              properties:
+                username:
+                  type: string
+                  pattern: ^[a-z_][a-z0-9_]{0,29}$
+                key_type:
+                  type: string
+                  enum:
+                    - ssh-ed25519
+                    - ssh-rsa
+                key_data:
+                  type: string
+                comment:
+                  type: string
+              required:
+                - username
+                - key_type
+                - key_data
+                - comment
             minItems: 1
             uniqueItems: yes
           project:

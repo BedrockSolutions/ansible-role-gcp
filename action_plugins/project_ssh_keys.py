@@ -29,6 +29,11 @@ class ActionModule(ActionBase):
         project = context['project']
         keys = context['keys']
 
+        # map the keys into the proper format
+        def to_key_format(obj):
+            return obj.username + ":" + obj.key_type + " " + obj.key_data + " " + obj.comment
+        key_string = "\n".join(map(to_key_format, keys))
+
         # get the projects api service object
         projects_api = discovery.build('compute', 'v1').projects()
 
@@ -40,7 +45,7 @@ class ActionModule(ActionBase):
             'fingerprint': fingerprint,
             'items': [{
                 'key': 'ssh-keys',
-                'value': "\n".join(keys),
+                'value': key_string,
             }]
         }
         result = projects_api.setCommonInstanceMetadata(project=project, body=request_body)
