@@ -114,8 +114,11 @@ def access_configs(context):
 
 def dns_record(context):
     name = context['name']
-    dns_subdomain = context['dns_subdomain']
-    dns_zone_name = context['dns_zone_name']
+    dns_subdomain = context.get('dns_subdomain')
+    dns_zone_name = context.get('dns_zone_name')
+
+    if not dns_subdomain or not dns_zone_name:
+        return []
 
     recordset = {
         'name': name + '.' + dns_subdomain,
