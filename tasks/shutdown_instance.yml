@@ -27,7 +27,8 @@
   - name: "Flush handlers before shutdown"
     meta: flush_handlers
 
-  - command: "gcloud compute instances stop {{ gcp_v.name }} --zone={{ gcp_v.zone }} --project={{ gcp_v.project }}"
+  - name: "Shutdown instance {{ name }}"
+    command: "gcloud compute instances stop {{ gcp_v.name }} --zone={{ gcp_v.zone }} --project={{ gcp_v.project }}"
     delegate_to: localhost
 
   tags:
