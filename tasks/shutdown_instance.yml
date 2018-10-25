@@ -1,0 +1,31 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          name:
+            type: string
+            default: "{{ inventory_hostname }}"
+          project:
+            type: string
+          zone:
+            type: string
+        required:
+          - name
+          - project
+          - zone
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - command: "gcloud compute instances stop {{ gcp_v.name }} --zone={{ gcp_v.zone }} --project={{ gcp_v.project }}"
+    delegate_to: localhost
+
+  tags:
+    - gcp_shutdown_instance

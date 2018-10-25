@@ -10,6 +10,7 @@
               enum:
                 - dependency
                 - project_ssh_keys
+                - shutdown_instance
                 - virtual_machine
           required:
             - command
