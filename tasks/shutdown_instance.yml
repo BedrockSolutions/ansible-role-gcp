@@ -28,12 +28,8 @@
     meta: flush_handlers
 
   - name: "Shutdown instance {{ gcp_v.name }}"
-    command: "gcloud compute instances stop {{ gcp_v.name }} --zone={{ gcp_v.zone }} --format json --project={{ gcp_v.project }}"
+    command: "gcloud compute instances stop {{ gcp_v.name }} --zone={{ gcp_v.zone }} --project={{ gcp_v.project }}"
     delegate_to: localhost
-    register: shutdown_return
-
-  - debug:
-      var: shutdown_return
 
   tags:
     - gcp_shutdown_instance
