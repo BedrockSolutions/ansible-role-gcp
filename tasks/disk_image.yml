@@ -1,0 +1,49 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          disk_name:
+            type: string
+          family:
+            type: string
+          name:
+            type: string
+          project:
+            type: string
+          zone:
+            type: string
+        required:
+          - disk_name
+          - family
+          - name
+          - project
+          - zone
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - set_fact:
+      disk_url: "{{ 'projects/' + gcp_v.project + '/zones/' + gcp_v.zone + '/disks/' + gcp_v.disk_name }}"
+      image_name: "{{ gcp_v.disk_name + '-' + hostvars.localhost.ansible_date_time.epoch }}"
+
+  - name: "Create image of {{ gcp_v.disk_name }}"
+    gcp_compute_image:
+      auth_kind: application
+      family: "{{ gcp_v.family }}"
+      name: "{{ image_name }}"
+      project: "{{ gcp_v.project }}"
+      scopes:
+        - https://www.googleapis.com/auth/compute
+      source_disk:
+        selfLink: "{{ disk_url }}"
+      state: present
+    delegate_to: localhost
+  tags:
+    - gcp_disk_image

@@ -9,6 +9,7 @@
               type: string
               enum:
                 - dependency
+                - disk_image
                 - project_ssh_keys
                 - shutdown_instance
                 - virtual_machine
