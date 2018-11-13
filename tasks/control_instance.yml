@@ -12,11 +12,17 @@
             default: "{{ inventory_hostname }}"
           project:
             type: string
+          state:
+            type: string
+            enum:
+              - started
+              - stopped
           zone:
             type: string
         required:
           - name
           - project
+          - state
           - zone
       instance: "{{ gcp }}"
     register: gcp_validated
@@ -26,10 +32,11 @@
 
   - name: "Flush handlers before shutdown"
     meta: flush_handlers
+    when: gcp_v.state == 'stopped'
 
-  - name: "Shutdown instance {{ gcp_v.name }}"
-    command: "gcloud compute instances stop {{ gcp_v.name }} --zone={{ gcp_v.zone }} --project={{ gcp_v.project }}"
+  - name: "Control instance {{ gcp_v.name }}: {{ gcp_v.state }}"
+    command: "gcloud compute instances {{ (gcp_v.state == 'started') | ternary('start', 'stop') }} {{ gcp_v.name }} --zone={{ gcp_v.zone }} --project={{ gcp_v.project }}"
     delegate_to: localhost
 
   tags:
-    - gcp_shutdown_instance
+    - gcp_control_instance

@@ -8,10 +8,10 @@
             command:
               type: string
               enum:
+                - control_instance
                 - dependency
                 - disk_image
                 - project_ssh_keys
-                - shutdown_instance
                 - virtual_machine
           required:
             - command
