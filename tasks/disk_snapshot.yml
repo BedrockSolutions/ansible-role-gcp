@@ -33,7 +33,7 @@
       gcloud compute disks snapshot
       {{ gcp_v.disk_name }}
       --project {{ gcp_v.project }}
-      --snapshot-names {{ gcp_v.disk_name + '-' + hostvars.localhost.ansible_date_time.epoch }}
+      --snapshot-names {{ gcp_v.name + '-' + hostvars.localhost.ansible_date_time.epoch }}
       --zone {{ gcp_v.zone }}
     delegate_to: localhost
 

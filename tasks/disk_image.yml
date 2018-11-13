@@ -31,7 +31,7 @@
 
   - set_fact:
       disk_url: "{{ 'projects/' + gcp_v.project + '/zones/' + gcp_v.zone + '/disks/' + gcp_v.disk_name }}"
-      image_name: "{{ gcp_v.disk_name + '-' + hostvars.localhost.ansible_date_time.epoch }}"
+      image_name: "{{ gcp_v.name + '-' + hostvars.localhost.ansible_date_time.epoch }}"
 
   - name: "Create image of {{ gcp_v.disk_name }}"
     gcp_compute_image:
