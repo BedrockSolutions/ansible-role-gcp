@@ -11,6 +11,7 @@
                 - control_instance
                 - dependency
                 - disk_image
+                - disk_snapshot
                 - project_ssh_keys
                 - virtual_machine
           required:

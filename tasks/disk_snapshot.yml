@@ -1,0 +1,42 @@
+---
+
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          disk_name:
+            type: string
+          name:
+            type: string
+          project:
+            type: string
+          zone:
+            type: string
+        required:
+          - disk_name
+          - name
+          - project
+          - zone
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - name: "Create snapshot of {{ gcp_v.disk_name }}"
+    command: >
+      gcloud compute disks snapshot
+      {{ gcp_v.disk_name }}
+      --project {{ gcp_v.project }}
+      --snapshot-names {{ gcp_v.disk_name + '-' + hostvars.localhost.ansible_date_time.epoch }}
+      --zone {{ gcp_v.zone }}
+    delegate_to: localhost
+
+  tags:
+    - gcp_disk_snapshot
+
