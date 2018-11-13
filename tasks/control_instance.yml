@@ -32,7 +32,7 @@
 
   - name: "Flush handlers before shutdown"
     meta: flush_handlers
-    when: gcp_v.state == 'stopped'
+    failed_when: no
 
   - name: "Control instance {{ gcp_v.name }}: {{ gcp_v.state }}"
     command: "gcloud compute instances {{ (gcp_v.state == 'started') | ternary('start', 'stop') }} {{ gcp_v.name }} --zone={{ gcp_v.zone }} --project={{ gcp_v.project }}"
@@ -42,6 +42,7 @@
     wait_for_connection:
       timeout: 240
       delay: 10
+    when: gcp_v.state == 'started'
 
   tags:
     - gcp_control_instance
