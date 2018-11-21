@@ -1,0 +1,94 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          auth_kind:
+            type: string
+            enum:
+              - application
+              - serviceaccount
+            default: application
+
+          family_octet:
+            type: integer
+            minimum: 1
+            maximum: 254
+
+          name_prefix:
+            type: string
+
+          project:
+            type: string
+
+          state:
+            type: string
+            default: present
+            enum:
+              - absent
+              - present
+
+          vpc:
+            type: string
+
+        required:
+          - auth_kind
+          - ip_cidr_range_prefix
+          - name_prefix
+          - project
+          - state
+          - vpc
+
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - set_fact:
+      gcp_region_to_octet:
+        us-west1: 1
+        us-east1: 2
+        us-east4: 3
+        asia-northeast1: 4
+        asia-east1: 5
+        asia-east2: 6
+        asia-south1: 7
+        asia-southeast1: 8
+        australia-southeast1: 9
+        europe-north1: 10
+        europe-west1: 11
+        europe-west2: 12
+        europe-west3: 13
+        europe-west4: 14
+        northamerica-northeast1: 15
+        southamerica-east1: 16
+        us-central1: 17
+        us-west2: 18
+      subnetwork_resources: []
+
+  - set_fact:
+      subnetwork:
+        name: "{{ gcp_v.name_prefix }}-{{ item.key }}"
+        type': compute.v1.subnetwork
+        properties:
+          name: "{{ gcp_v.name_prefix }}-{{ item.key }}"
+          ipCidrRange: "10.{{ gcp_v.family_octet | string }}.{{ item.value }}.0/24"
+          region: "{{ item.key }}"
+          network: "{{ gcp_v.vpc }}"
+      subnetwork_resources: "{{ subnetwork_resources + [ subnetwork ] }}"
+    with_dict: "{{ gcp_region_to_octet }}"
+
+  - gcp_deployment:
+      auth_kind: "{{ gcp_v.auth_kind }}"
+      config:
+        resources: "{{ subnetwork_resources }}"
+      name: "{{ gcp_v.name }}"
+      project: "{{ gcp_v.project }}"
+      state: "{{ gcp_v.state }}"
+  tags:
+    - gcp_subnetwork_family

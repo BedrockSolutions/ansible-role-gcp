@@ -13,7 +13,9 @@
                 - disk_image
                 - disk_snapshot
                 - project_ssh_keys
+                - subnetwork_family
                 - virtual_machine
+                - vpc
           required:
             - command
         instance: "{{ gcp }}"

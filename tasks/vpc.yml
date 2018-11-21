@@ -1,0 +1,63 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          auth_kind:
+            type: string
+            enum:
+              - application
+              - serviceaccount
+            default: application
+
+          auto_create_subnetworks:
+            type: boolean
+            default: false
+
+          name:
+            type: string
+
+          project:
+            type: string
+
+          state:
+            type: string
+            default: present
+            enum:
+              - absent
+              - present
+
+        required:
+          - auth_kind
+          - auto_create_subnetworks
+          - name
+          - project
+          - state
+
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - set_fact:
+      vpc_resources:
+        - name: "{{ gcp_v.name }}"
+          type: compute.v1.network
+          properties:
+            name: "{{ gcp_v.name }}"
+            autoCreateSubnetworks: "{{ gcp_v.auto_create_subnetworks }}"
+
+  - gcp_deployment:
+      auth_kind: "{{ gcp_v.auth_kind }}"
+      config:
+        resources: "{{ vpc_resources }}"
+      name: "{{ gcp_v.name }}-vpc"
+      project: "{{ gcp_v.project }}"
+      state: "{{ gcp_v.state }}"
+  tags:
+    - gcp_vpc
