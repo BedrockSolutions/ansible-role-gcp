@@ -90,7 +90,7 @@
       auth_kind: "{{ gcp_v.auth_kind }}"
       config:
         resources: "{{ subnetwork_resources }}"
-      name: "{{ gcp_v.name }}"
+      name: "{{ gcp_v.family_name }}-subnetwork-family"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:
