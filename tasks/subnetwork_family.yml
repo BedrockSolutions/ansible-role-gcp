@@ -14,10 +14,10 @@
               - serviceaccount
             default: application
 
-          family_name:
+          name:
             type: string
 
-          family_octet:
+          octet:
             oneOf:
             - type: integer
               minimum: 0
@@ -31,6 +31,7 @@
             items:
               type: object
               additionalProperties: no
+              minLength: 1
               properties:
                 name:
                   type: string
@@ -49,17 +50,18 @@
               - absent
               - present
 
-          vpc:
+          vpc_network:
             type: string
+            pattern: ^[a-z0-9/-]+$
 
         required:
           - auth_kind
-          - family_name
-          - family_octet
+          - name
+          - octet
           - project
           - regions
           - state
-          - vpc
+          - vpc_network
 
       instance: "{{ gcp }}"
     register: gcp_validated
@@ -68,36 +70,15 @@
       gcp_v: "{{ gcp_validated.result }}"
 
   - set_fact:
-      gcp_region_to_octet:
-        us-west1: 1
-        us-east1: 2
-        us-east4: 3
-        asia-northeast1: 4
-        asia-east1: 5
-        asia-east2: 6
-        asia-south1: 7
-        asia-southeast1: 8
-        australia-southeast1: 9
-        europe-north1: 10
-        europe-west1: 11
-        europe-west2: 12
-        europe-west3: 13
-        europe-west4: 14
-        northamerica-northeast1: 15
-        southamerica-east1: 16
-        us-central1: 17
-        us-west2: 18
-
-  - set_fact:
       subnetwork:
-        name: "{{ gcp_v.family_name }}-{{ item.key }}"
+        name: "{{ gcp_v.name }}-{{ item.name }}"
         type: compute.v1.subnetwork
         properties:
-          name: "{{ gcp_v.family_name }}-{{ item.key }}"
-          ipCidrRange: "10.{{ gcp_v.family_octet | string }}.{{ item.value }}.0/24"
-          region: "{{ item.key }}"
-          network: "{{ gcp_v.vpc }}"
-    with_dict: "{{ gcp_region_to_octet }}"
+          name: "{{ gcp_v.name }}-{{ item.name }}"
+          ipCidrRange: "10.{{ gcp_v.octet | string }}.{{ item.octet }}.0/24"
+          region: "{{ item.name }}"
+          network: "{{ gcp_v.vpc_network }}"
+    loop: "{{ gcp_v.regions }}"
     register: subnetwork_resources_return
 
   - set_fact:
@@ -110,7 +91,7 @@
       auth_kind: "{{ gcp_v.auth_kind }}"
       config:
         resources: "{{ subnetwork_resources }}"
-      name: "{{ gcp_v.family_name }}-subnetwork-family"
+      name: "{{ gcp_v.name }}-subnetwork-family"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:
