@@ -86,7 +86,7 @@
     register: subnetwork_resources_return
 
   - set_fact:
-      subnetwork_resources: "{{ subnetwork_resources_return.result | map(attribute='ansible_facts.subnetwork') | list }}"
+      subnetwork_resources: "{{ subnetwork_resources_return.results | map(attribute='ansible_facts.subnetwork') | list }}"
 
   - debug:
       var: subnetwork_resources
