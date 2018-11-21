@@ -14,13 +14,16 @@
               - serviceaccount
             default: application
 
-          family_octet:
-            type: integer
-            minimum: 1
-            maximum: 254
-
-          name_prefix:
+          family_name:
             type: string
+
+          family_octet:
+            oneOf:
+            - type: integer
+              minimum: 1
+              maximum: 254
+            - type: string
+              pattern: ^([0-9]|[1-9][0-9]|[1-2][0-4][0-9]|25[0-4])$
 
           project:
             type: string
@@ -37,8 +40,8 @@
 
         required:
           - auth_kind
-          - ip_cidr_range_prefix
-          - name_prefix
+          - family_name
+          - family_octet
           - project
           - state
           - vpc
@@ -73,10 +76,10 @@
 
   - set_fact:
       subnetwork:
-        name: "{{ gcp_v.name_prefix }}-{{ item.key }}"
+        name: "{{ gcp_v.family_name }}-{{ item.key }}"
         type': compute.v1.subnetwork
         properties:
-          name: "{{ gcp_v.name_prefix }}-{{ item.key }}"
+          name: "{{ gcp_v.family_name }}-{{ item.key }}"
           ipCidrRange: "10.{{ gcp_v.family_octet | string }}.{{ item.value }}.0/24"
           region: "{{ item.key }}"
           network: "{{ gcp_v.vpc }}"
