@@ -76,7 +76,7 @@
   - set_fact:
       subnetwork:
         name: "{{ gcp_v.family_name }}-{{ item.key }}"
-        type': compute.v1.subnetwork
+        type: compute.v1.subnetwork
         properties:
           name: "{{ gcp_v.family_name }}-{{ item.key }}"
           ipCidrRange: "10.{{ gcp_v.family_octet | string }}.{{ item.value }}.0/24"
