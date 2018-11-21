@@ -20,14 +20,28 @@
           family_octet:
             oneOf:
             - type: integer
-              minimum: 1
+              minimum: 0
               maximum: 254
-            - type: string
-              pattern: ^([0-9]|[1-9][0-9]|[1-2][0-4][0-9]|25[0-4])$
 
           project:
             type: string
 
+          regions:
+            type: array
+            items:
+              type: object
+              additionalProperties: no
+              properties:
+                name:
+                  type: string
+                  pattern: ^[a-z1-9-]+$
+                octet:
+                  type: integer
+                  minimum: 0
+                  maximum: 254
+              required:
+                - name
+                - octet
           state:
             type: string
             default: present
@@ -43,6 +57,7 @@
           - family_name
           - family_octet
           - project
+          - regions
           - state
           - vpc
 
