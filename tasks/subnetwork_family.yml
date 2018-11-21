@@ -72,7 +72,7 @@
         southamerica-east1: 16
         us-central1: 17
         us-west2: 18
-      subnetwork_resources: []
+#      subnetwork_resources: []
 
   - set_fact:
       subnetwork:
@@ -83,8 +83,12 @@
           ipCidrRange: "10.{{ gcp_v.family_octet | string }}.{{ item.value }}.0/24"
           region: "{{ item.key }}"
           network: "{{ gcp_v.vpc }}"
-      subnetwork_resources: "{{ subnetwork_resources }} + [ {{ subnetwork }} ]"
+#      subnetwork_resources: "{{ subnetwork_resources }} + [ {{ subnetwork }} ]"
     with_dict: "{{ gcp_region_to_octet }}"
+    register: subnetwork_resources_return
+
+  - debug:
+      var: subnetwork_resources_return
 
   - gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
