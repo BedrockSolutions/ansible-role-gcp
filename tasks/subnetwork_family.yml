@@ -16,12 +16,12 @@
 
           name:
             type: string
+            pattern: ^[a-z0-9-]+$
 
           octet:
-            oneOf:
-            - type: integer
-              minimum: 0
-              maximum: 254
+            type: integer
+            minimum: 0
+            maximum: 254
 
           project:
             type: string
