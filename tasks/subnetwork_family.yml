@@ -86,9 +86,6 @@
   - set_fact:
       subnetwork_resources: "{{ subnetwork_resources_return.results | map(attribute='ansible_facts.subnetwork') | list }}"
 
-  - debug:
-      var: subnetwork_resources
-
   - gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
       config:
