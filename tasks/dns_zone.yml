@@ -38,7 +38,6 @@
           - project
           - state
           - subdomain
-          - zone
 
       instance: "{{ gcp }}"
     register: gcp_validated
