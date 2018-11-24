@@ -55,7 +55,7 @@
             properties:
               name: "{{ gcp_v.name }}"
               dnsName: "{{ gcp_v.subnetwork }}"
-              description: "Managed zone for {{ gcp_v.subnetwork }}"
+              description: "Managed zone for {{ gcp_v.subdomain }}"
       name: "{{ gcp_v.name }}-dns-zone"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
