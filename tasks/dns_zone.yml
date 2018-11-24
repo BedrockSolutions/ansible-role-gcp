@@ -1,0 +1,61 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          auth_kind:
+            type: string
+            enum:
+              - application
+              - serviceaccount
+            default: application
+
+          project:
+            type: string
+
+          state:
+            type: string
+            default: present
+            enum:
+              - absent
+              - present
+
+          zone:
+            type: string
+            pattern: ^[a-z0-9-.]+$
+
+        required:
+          - auth_kind
+          - project
+          - state
+          - zone
+
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - set_fact:
+      name: "{{ gcp_v.zone | replace('.', '-') }}"
+
+  - name: "Deploy {{ name }}-dns-zone"
+    gcp_deployment:
+      auth_kind: "{{ gcp_v.auth_kind }}"
+      config:
+        resources:
+          - name: "{{ name }}"
+            type: dns.v1.managedZone
+            properties:
+              name: "{{ name }}"
+              dnsName: "{{ gcp_v.zone }}"
+              description: "Managed zone for {{ gcp_v.zone }}"
+      name: "{{ name }}-dns-zone"
+      project: "{{ gcp_v.project }}"
+      state: "{{ gcp_v.state }}"
+  tags:
+    - gcp_dns_zone

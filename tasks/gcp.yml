@@ -12,6 +12,7 @@
                 - dependency
                 - disk_image
                 - disk_snapshot
+                - dns_zone
                 - project_ssh_keys
                 - subnetwork_family
                 - virtual_machine
