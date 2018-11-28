@@ -1,0 +1,57 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          auth_kind:
+            type: string
+            enum:
+              - application
+              - serviceaccount
+            default: application
+
+          name:
+            type: string
+            pattern: ^[a-z0-9.-]+$
+
+          project:
+            type: string
+
+          state:
+            type: string
+            default: present
+            enum:
+              - absent
+              - present
+
+        required:
+          - auth_kind
+          - name
+          - project
+          - state
+
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - name: "Deploy {{ gcp_v.name }}-api"
+    gcp_deployment:
+      auth_kind: "{{ gcp_v.auth_kind }}"
+      config:
+        resources:
+          - name: "{{ gcp_v.name }}"
+            type: deploymentmanager.v2.virtual.enableService
+            properties:
+              consumerId: "project: {{ gcp_v.project }}"
+              serviceName: "{{ gcp_v.name }}"
+      name: "{{ name }}-api"
+      project: "{{ gcp_v.project }}"
+      state: "{{ gcp_v.state }}"
+  tags:
+    - gcp_api

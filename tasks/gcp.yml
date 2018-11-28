@@ -8,6 +8,7 @@
             command:
               type: string
               enum:
+                - api
                 - control_instance
                 - dependency
                 - disk_image
