@@ -40,8 +40,8 @@
   - set_fact:
       gcp_v: "{{ gcp_validated.result }}"
 
-  - debug:
-      var: gcp_v
+  - set_fact:
+      api_name: "{{ gcp_v.name | replace('.', '-') }}"
 
   - name: "Deploy {{ gcp_v.name }}-api"
     gcp_deployment:
@@ -53,7 +53,7 @@
             properties:
               consumerId: "project: {{ gcp_v.project }}"
               serviceName: "{{ gcp_v.name }}"
-      name: "{{ gcp_v.name }}-api"
+      name: "{{ api_name }}-api"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:
