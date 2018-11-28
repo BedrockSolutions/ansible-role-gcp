@@ -14,6 +14,7 @@
                 - disk_snapshot
                 - dns_zone
                 - project_ssh_keys
+                - service_account
                 - subnetwork_family
                 - virtual_machine
                 - vpc
