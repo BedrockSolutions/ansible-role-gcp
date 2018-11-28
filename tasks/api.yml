@@ -53,7 +53,7 @@
             properties:
               consumerId: "project: {{ gcp_v.project }}"
               serviceName: "{{ gcp_v.name }}"
-      name: "{{ name }}-api"
+      name: "{{ gcp_v.name }}-api"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:
