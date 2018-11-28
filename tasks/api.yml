@@ -40,6 +40,9 @@
   - set_fact:
       gcp_v: "{{ gcp_validated.result }}"
 
+  - debug:
+      var: gcp_v
+
   - name: "Deploy {{ gcp_v.name }}-api"
     gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
