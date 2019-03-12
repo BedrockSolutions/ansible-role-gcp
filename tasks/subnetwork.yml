@@ -1,0 +1,80 @@
+---
+
+- block:
+  - validate:
+      schema:
+        type: object
+        additionalProperties:
+          - command
+        properties:
+          address_range:
+            type: string
+
+          auth_kind:
+            type: string
+            enum:
+              - application
+              - serviceaccount
+            default: application
+
+          name_prefix:
+            type: string
+            pattern: ^[a-z0-9-]+$
+
+          octet:
+            oneOf:
+              - type: integer
+                minimum: 0
+                maximum: 254
+              - type: string
+                pattern: ^([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-4])$
+
+          project:
+            type: string
+
+          region:
+            type: string
+                
+          state:
+            type: string
+            default: present
+            enum:
+              - absent
+              - present
+
+          vpc_network:
+            type: string
+            pattern: ^[a-z0-9/-]+$
+
+        required:
+          - address_range
+          - auth_kind
+          - name_prefix
+          - project
+          - region
+          - state
+          - vpc_network
+
+      instance: "{{ gcp }}"
+    register: gcp_validated
+
+  - set_fact:
+      gcp_v: "{{ gcp_validated.result }}"
+
+  - name: "Deploy {{ gcp_v.name_prefix }}-{{ gcp_v.region }}-subnetwork"
+    gcp_deployment:
+      auth_kind: "{{ gcp_v.auth_kind }}"
+      config:
+        resources: 
+        - name: "{{ gcp_v.name_prefix }}-{{ gcp_v.region }}"
+          type: compute.v1.subnetwork
+          properties:
+            name: "{{ gcp_v.name_prefix }}-{{ gcp_v.region }}"
+            ipCidrRange: "{{ gcp_v.address_range }}"
+            region: "{{ gcp_v.region }}"
+            network: "{{ gcp_v.vpc_network }}"
+      name: "{{ gcp_v.name_prefix }}-{{ gcp_v.region }}-subnetwork"
+      project: "{{ gcp_v.project }}"
+      state: "{{ gcp_v.state }}"
+  tags:
+    - gcp_subnetwork
