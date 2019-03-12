@@ -52,7 +52,7 @@
           - name: "{{ gcp_v.name }}"
             type: deploymentmanager.v2.virtual.enableService
             properties:
-              consumerId: "project: {{ gcp_v.project }}"
+              consumerId: "project:{{ gcp_v.project }}"
               serviceName: "{{ gcp_v.name }}"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"

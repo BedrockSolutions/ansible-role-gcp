@@ -17,7 +17,6 @@
                 - project_ssh_keys
                 - service_account
                 - subnetwork
-                - subnetwork_family
                 - virtual_machine
                 - vpc
           required:
