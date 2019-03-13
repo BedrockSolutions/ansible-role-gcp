@@ -54,7 +54,7 @@
   - set_fact:
       gcp_v: "{{ gcp_validated.result }}"
 
-  - name: "Deploy {{ gcp_v.name_prefix }}-{{ gcp_v.region }}-subnetwork"
+  - name: "Deploy Subnetwork {{ gcp_v.name_prefix }}-{{ gcp_v.region }}: {{ gcp_v.state }}"
     gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
       config:
@@ -66,7 +66,7 @@
             ipCidrRange: "{{ gcp_v.address_range }}"
             region: "{{ gcp_v.region }}"
             network: "{{ gcp_v.vpc_network }}"
-      name: "{{ gcp_v.name_prefix }}-{{ gcp_v.region }}-subnetwork"
+      name: "subnetwork-{{ gcp_v.name_prefix }}-{{ gcp_v.region }}"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:

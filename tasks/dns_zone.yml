@@ -45,7 +45,7 @@
   - set_fact:
       gcp_v: "{{ gcp_validated.result }}"
 
-  - name: "Deploy {{ gcp_v.name }}-dns-zone"
+  - name: "Deploy DNS Zone {{ gcp_v.name }}: {{ gcp_v.state }}"
     gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
       config:
@@ -56,7 +56,7 @@
               name: "{{ gcp_v.name }}"
               dnsName: "{{ gcp_v.subdomain }}"
               description: "Managed zone for {{ gcp_v.subdomain }}"
-      name: "{{ gcp_v.name }}-dns-zone"
+      name: "dns-zone-{{ gcp_v.name }}"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:

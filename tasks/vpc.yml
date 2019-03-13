@@ -52,11 +52,12 @@
             name: "{{ gcp_v.name }}"
             autoCreateSubnetworks: "{{ gcp_v.auto_create_subnetworks }}"
 
-  - gcp_deployment:
+  - name: "Deploy VPC {{ gcp_v.name }}: {{ gcp_v.state }}"
+    gcp_deployment:
       auth_kind: "{{ gcp_v.auth_kind }}"
       config:
         resources: "{{ vpc_resources }}"
-      name: "{{ gcp_v.name }}-vpc"
+      name: "vpc-{{ gcp_v.name }}"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:

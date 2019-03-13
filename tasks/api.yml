@@ -43,9 +43,8 @@
   - set_fact:
       api_name: "{{ gcp_v.name | replace('.', '-') }}"
 
-  - name: "Deploy {{ api_name }}-api"
+  - name: "Deploy API {{ api_name }}: {{ gcp_v.state }}"
     gcp_deployment:
-      name: "{{ api_name }}-api"
       auth_kind: "{{ gcp_v.auth_kind }}"
       config:
         resources:
@@ -54,6 +53,7 @@
             properties:
               consumerId: "project:{{ gcp_v.project }}"
               serviceName: "{{ gcp_v.name }}"
+      name: "api-{{ api_name }}"
       project: "{{ gcp_v.project }}"
       state: "{{ gcp_v.state }}"
   tags:
